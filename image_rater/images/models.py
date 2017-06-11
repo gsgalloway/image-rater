@@ -18,11 +18,14 @@ class ImageManager(models.Manager):
 
 @python_2_unicode_compatible
 class Image(TimeStampedModel):
+    ## Model fields ##
     image = models.ImageField(_('image'), upload_to='images', blank=False, null=False)
     name = models.CharField(_('Image Name'), blank=True, max_length=255, unique=False)
 
+    ## Custom Model manager to support random access ##
     objects = ImageManager()
 
+    ## Model Methods ##
     def __str__(self):
         if self.name:
             return self.name
@@ -32,9 +35,11 @@ class Image(TimeStampedModel):
 
 @python_2_unicode_compatible
 class ImagePresentation(TimeStampedModel):
+    ## Miscellaneous database configurations for Model ##
     class Meta:
         unique_together = ['viewer', 'sequence_number']
 
+    ## Model field choices ##
     STATE_UNSEEN = 'unseen'
     STATE_SEEN = 'seen'
     STATE_SEEN_AND_LIKED = 'seen_and_liked'
@@ -48,10 +53,12 @@ class ImagePresentation(TimeStampedModel):
         (STATE_SEEN_AND_QUIT, _('Seen and user quit')),
     )
 
+    ## Model fields ##
     image = models.ForeignKey(Image, on_delete=models.CASCADE, blank=False, null=False)
     sequence_number = models.SmallIntegerField(blank=False, null=False)
     viewer = models.ForeignKey('users.User', on_delete=models.CASCADE, blank=False, null=False)
     state = models.CharField(_('state'), max_length=255, choices=STATE_CHOICES, default=STATE_UNSEEN)
 
+    ## Model Methods ##
     def __str__(self):
         return 'User: {}, Image: {}, SeqNo: {}'.format(self.viewer, self.image, self.sequence_number)
