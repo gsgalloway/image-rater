@@ -56,6 +56,7 @@ LOCAL_APPS = [
     # custom users app
     'image_rater.users.apps.UsersConfig',
     # Your stuff: custom apps go here
+    'image_rater.images.apps.ImagesConfig',
 ]
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
