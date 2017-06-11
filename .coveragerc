@@ -1,0 +1,5 @@
+[run]
+include = image_rater/*
+omit = *migrations*, *tests*
+plugins =
+    django_coverage_plugin
